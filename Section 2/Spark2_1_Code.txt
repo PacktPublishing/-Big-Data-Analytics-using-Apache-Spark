@@ -1,0 +1,172 @@
+Scala
+
+
+spark2 $bin/spark-shell
+2018-05-15 08:44:37 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Spark context Web UI available at http://holys-mbp:4040
+Spark context available as 'sc' (master = local[*], app id = local-1526354083838).
+Spark session available as 'spark'.
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /___/ .__/\_,_/_/ /_/\_\   version 2.3.0
+      /_/
+
+Using Scala version 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_161)
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> val df = spark.read.json("file:////Users/holyspirit/spark2/DownloadedDataset/titanic-passengers.json")
+2018-05-15 08:45:17 WARN  ObjectStore:568 - Failed to get database global_temp, returning NoSuchObjectException
+df: org.apache.spark.sql.DataFrame = [datasetid: string, fields: struct<age: double, cabin: string ... 10 more fields> ... 2 more fields]
+
+scala> df.show()
++------------------+--------------------+--------------------+--------------------+
+|         datasetid|              fields|    record_timestamp|            recordid|
++------------------+--------------------+--------------------+--------------------+
+|titanic-passengers|[,, S, 7.3125, Ol...|2016-09-21T04:04:...|398286223e6c4c163...|
+|titanic-passengers|[40.0,, S, 15.75,...|2016-09-21T04:04:...|a6e68dbc16c3cf161...|
+|titanic-passengers|[26.0,, S, 7.775,...|2016-09-21T04:04:...|50cc1cb165b051515...|
+|titanic-passengers|[19.0,, S, 10.5, ...|2016-09-21T04:04:...|1b3c80a0f49d7a4b0...|
+|titanic-passengers|[,, C, 14.4542, Z...|2016-09-21T04:04:...|30c3695bc6b529abe...|
+|titanic-passengers|[22.0,, S, 29.0, ...|2016-09-21T04:04:...|7ca607e59a2c8868e...|
+|titanic-passengers|[28.0,, S, 13.0, ...|2016-09-21T04:04:...|835634b93c8f75953...|
+|titanic-passengers|[23.0,, S, 9.225,...|2016-09-21T04:04:...|97ba77ec9555f9005...|
+|titanic-passengers|[45.0,, C, 14.454...|2016-09-21T04:04:...|dcc9f1a6851bc5256...|
+|titanic-passengers|[21.0,, S, 7.775,...|2016-09-21T04:04:...|eea7ba75804a635bb...|
+|titanic-passengers|[0.75,, C, 19.258...|2016-09-21T04:04:...|d20c9a4ce4747f25c...|
+|titanic-passengers|[,, S, 15.1, Shel...|2016-09-21T04:04:...|75781e163282becaf...|
+|titanic-passengers|[,, Q, 7.75, Morr...|2016-09-21T04:04:...|55a5681dcca73224b...|
+|titanic-passengers|[4.0, F4, S, 39.0...|2016-09-21T04:04:...|9d1c2cbc4f81ce96c...|
+|titanic-passengers|[61.0, D50, S, 32...|2016-09-21T04:04:...|1d6ad8edf93a4e2d6...|
+|titanic-passengers|[21.0, D9, S, 77....|2016-09-21T04:04:...|db426fc16013000ed...|
+|titanic-passengers|[, F38, Q, 7.75, ...|2016-09-21T04:04:...|05b44f26b0ba25c01...|
+|titanic-passengers|[5.0,, S, 12.475,...|2016-09-21T04:04:...|7387d27b72ae81a67...|
+|titanic-passengers|[31.0,, S, 8.6833...|2016-09-21T04:04:...|eae10a68ddff57fae...|
+|titanic-passengers|[18.0,, S, 7.775,...|2016-09-21T04:04:...|7ce1a71e4b213e2e2...|
++------------------+--------------------+--------------------+--------------------+
+only showing top 20 rows
+
+
+scala> :q
+
+
+------------------------------------------------
+
+Python
+
+spark2 $bin/pyspark
+Python 3.6.3 |Anaconda custom (64-bit)| (default, Oct  6 2017, 12:04:38)
+[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+2018-05-15 08:43:17 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /__ / .__/\_,_/_/ /_/\_\   version 2.3.0
+      /_/
+
+Using Python version 3.6.3 (default, Oct  6 2017 12:04:38)
+SparkSession available as 'spark'.
+>>> df = spark.read.json("file:////Users/holyspirit/spark2/DownloadedDataset/titanic-passengers.json")
+2018-05-15 08:43:51 WARN  ObjectStore:568 - Failed to get database global_temp, returning NoSuchObjectException
+>>> df.show()
++------------------+--------------------+--------------------+--------------------+
+|         datasetid|              fields|    record_timestamp|            recordid|
++------------------+--------------------+--------------------+--------------------+
+|titanic-passengers|[,, S, 7.3125, Ol...|2016-09-21T04:04:...|398286223e6c4c163...|
+|titanic-passengers|[40.0,, S, 15.75,...|2016-09-21T04:04:...|a6e68dbc16c3cf161...|
+|titanic-passengers|[26.0,, S, 7.775,...|2016-09-21T04:04:...|50cc1cb165b051515...|
+|titanic-passengers|[19.0,, S, 10.5, ...|2016-09-21T04:04:...|1b3c80a0f49d7a4b0...|
+|titanic-passengers|[,, C, 14.4542, Z...|2016-09-21T04:04:...|30c3695bc6b529abe...|
+|titanic-passengers|[22.0,, S, 29.0, ...|2016-09-21T04:04:...|7ca607e59a2c8868e...|
+|titanic-passengers|[28.0,, S, 13.0, ...|2016-09-21T04:04:...|835634b93c8f75953...|
+|titanic-passengers|[23.0,, S, 9.225,...|2016-09-21T04:04:...|97ba77ec9555f9005...|
+|titanic-passengers|[45.0,, C, 14.454...|2016-09-21T04:04:...|dcc9f1a6851bc5256...|
+|titanic-passengers|[21.0,, S, 7.775,...|2016-09-21T04:04:...|eea7ba75804a635bb...|
+|titanic-passengers|[0.75,, C, 19.258...|2016-09-21T04:04:...|d20c9a4ce4747f25c...|
+|titanic-passengers|[,, S, 15.1, Shel...|2016-09-21T04:04:...|75781e163282becaf...|
+|titanic-passengers|[,, Q, 7.75, Morr...|2016-09-21T04:04:...|55a5681dcca73224b...|
+|titanic-passengers|[4.0, F4, S, 39.0...|2016-09-21T04:04:...|9d1c2cbc4f81ce96c...|
+|titanic-passengers|[61.0, D50, S, 32...|2016-09-21T04:04:...|1d6ad8edf93a4e2d6...|
+|titanic-passengers|[21.0, D9, S, 77....|2016-09-21T04:04:...|db426fc16013000ed...|
+|titanic-passengers|[, F38, Q, 7.75, ...|2016-09-21T04:04:...|05b44f26b0ba25c01...|
+|titanic-passengers|[5.0,, S, 12.475,...|2016-09-21T04:04:...|7387d27b72ae81a67...|
+|titanic-passengers|[31.0,, S, 8.6833...|2016-09-21T04:04:...|eae10a68ddff57fae...|
+|titanic-passengers|[18.0,, S, 7.775,...|2016-09-21T04:04:...|7ce1a71e4b213e2e2...|
++------------------+--------------------+--------------------+--------------------+
+only showing top 20 rows
+
+>>> exit()
+
+------------------------------------------------
+
+R
+
+spark2 $bin/sparkR
+
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+Launching java with spark-submit command /Users/holyspirit/spark2/bin/spark-submit   "sparkr-shell" /var/folders/ls/602zpmr17wz5nbcc2233pym80000gn/T//Rtmpu2bV2B/backend_port418810352e8d
+2018-05-15 08:38:56 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+
+ Welcome to
+    ____              __
+   / __/__  ___ _____/ /__
+  _\ \/ _ \/ _ `/ __/  '_/
+ /___/ .__/\_,_/_/ /_/\_\   version  2.3.0
+    /_/
+
+
+ SparkSession available as 'spark'.
+> df <- read.json("file:////Users/holyspirit/spark2/DownloadedDataset/titanic-passengers.json")
+2018-05-15 08:39:29 WARN  ObjectStore:568 - Failed to get database global_temp, returning NoSuchObjectException
+> head(df)
+           datasetid
+1 titanic-passengers
+2 titanic-passengers
+3 titanic-passengers
+4 titanic-passengers
+5 titanic-passengers
+6 titanic-passengers
+                                                                                                       fields
+1                                 NA, NA, S, 7.3125, Olsen, Mr. Ole Martin, 0, 155, 3, male, 0, No, Fa 265302
+2 40, NA, S, 15.75, Watt, Mrs. James (Elizabeth "Bessie" Inglis Milne), 0, 162, 2, female, 0, Yes, C.A. 33595
+3                                26, NA, S, 7.775, Bengtsson, Mr. John Viktor, 0, 163, 3, male, 0, No, 347068
+4                              19, NA, S, 10.5, Mellors, Mr. William John, 0, 227, 2, male, 0, Yes, SW/PP 751
+5                                   NA, NA, C, 14.4542, Zabour, Miss. Thamine, 0, 241, 3, female, 1, No, 2665
+6       22, NA, S, 29, Caldwell, Mrs. Albert Francis (Sylvia Mae Harbaugh), 1, 324, 2, female, 1, Yes, 248738
+           record_timestamp                                 recordid
+1 2016-09-21T04:04:51+05:30 398286223e6c4c16377d2b81d5335ac6dcc2cafb
+2 2016-09-21T04:04:51+05:30 a6e68dbc16c3cf161e3d250650203e2c06161474
+3 2016-09-21T04:04:51+05:30 50cc1cb165b05151593164cdbc3815c1c3cccb55
+4 2016-09-21T04:04:51+05:30 1b3c80a0f49d7a4b050f023381aec7ce40fe4768
+5 2016-09-21T04:04:51+05:30 30c3695bc6b529abe6fb6052648f9238371a189b
+6 2016-09-21T04:04:51+05:30 7ca607e59a2c8868e6c8233a43577cf6d29ce00a
+
+> q()
+Save workspace image? [y/n/c]: n

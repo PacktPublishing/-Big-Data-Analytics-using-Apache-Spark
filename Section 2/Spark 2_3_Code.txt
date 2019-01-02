@@ -1,0 +1,55 @@
+
+sqlite3
+SQLite version 3.20.1 2017-08-24 16:21:36
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .databases
+main:
+sqlite> .tables
+
+sqlite3 ORGANIZATION.db
+
+CREATE TABLE EMPLOYEE(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+
+INSERT INTO EMPLOYEE (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (1, 'Paul', 32, 'California', 20000.00 );
+
+INSERT INTO EMPLOYEE (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+
+INSERT INTO EMPLOYEE (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+
+INSERT INTO EMPLOYEE (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+
+INSERT INTO EMPLOYEE (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (5, 'David', 27, 'Texas', 85000.00 );
+
+INSERT INTO EMPLOYEE (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+
+./bin/spark-sql  --driver-class-path /Users/holyspirit/spark2/sqlite-jdbc-3.23.1.jar --jars /Users/holyspirit/spark2/sqlite-jdbc-3.23.1.jar
+
+CREATE TEMPORARY VIEW jdbcTable
+USING org.apache.spark.sql.jdbc
+OPTIONS (
+  url "jdbc:sqlite://Users/holyspirit/spark2/ORGANIZATION.db",
+  dbtable "EMPLOYEE"
+);
+
+SELECT * FROM jdbcTable;
+
+bin/spark-shell --driver-class-path /Users/holyspirit/spark2/sqlite-jdbc-3.23.1.jar --jars /Users/holyspirit/spark2/sqlite-jdbc-3.23.1.jar
+
+val dbDataFrame = spark.read.format("jdbc").option("url","jdbc:sqlite://Users/holyspirit/spark2/ORGANIZATION.db").option("dbtable","EMPLOYEE").option("driver","org.sqlite.JDBC").load()
+
+dbDataFrame.select("NAME").show(5)

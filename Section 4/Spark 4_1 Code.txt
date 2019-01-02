@@ -1,0 +1,11 @@
+// Transform a streaming DataFrame to calculate word counts
+# TERMINAL 1:
+nc -lk 7777
+
+
+# TERMINAL 2:
+val text = spark.readStream.format("socket").option("host", "localhost").option("port", 7777).load()
+val word = text.as[String].flatMap(_.split(" "))
+val runningCount = word.groupBy("value").count()
+val query = runningCount.writeStream.outputMode("complete").format("console").start()
+query.awaitTermination()

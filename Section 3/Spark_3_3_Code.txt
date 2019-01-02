@@ -1,0 +1,81 @@
+spark2 $head Building_Permits.tsv 
+PermitNum	PermitClass	PermitClassMapped	PermitTypeMapped	PermitTypeDesc	DescriptionHousingUnits	HousingUnitsRemoved	HousingUnitsAdded	EstProjectCost	AppliedDate	IssuedDate	ExpiresDate	CompletedDate	StatusCurrent	OriginalAddress1	OriginalCity	OriginalState	OriginalZip	ContractorCompanyName	Link	Latitude	Longitude	Location_1
+6086767-CN	Commercial	Non-Residential	Building	New	Phase II of III for construction of a mixed use high-rise bldg with basmt parking, foundation & structural frame to grade, per plans.		7700000	2006-07-06	2007-03-14	2008-09-14	2009-04-13	Completed	809 OLIVE WAY	SEATTLE	WA	98101	WASHINGTON HANOVER,LLC	https://cosaccela.seattle.gov/portal/customize/LinkToRecord.aspx?altId=6086767-CN	47.61397452	-122.33352833	"809 OLIVE WAY
+SEATTLE, WA 98101
+(47.61397452, -122.33352833)"
+6654859-CN	Commercial	Non-Residential	Building	NONE	Re-Roof Apartment Building  for Mono Rooftop Solutions.					2018-04-06	2018-04-06	2019-10-06		Issued	201 W OLYMPIC PL	SEATTLE	WA	98119		https://cosaccela.seattle.gov/portal/customize/LinkToRecord.aspx?altId=6654859-CN	47.62643778	-122.35957774	"201 W OLYMPIC PL
+SEATTLE, WA 98119
+(47.62643778, -122.35957774)"
+6414155-EX	Single Family/Duplex	Residential	Building	Environmentally Critical Area Exemption	Exception/Exemption Request for: CLOSED AS INCOMPLETE - EXPIRED PERMIT. Demo existing detached garage, per plan subject to field inspection					2014-04-22				Completed	6504 24TH AVE SW	SEATTLE	WA	98106		https://cosaccela.seattle.gov/portal/customize/LinkToRecord.aspx?altId=6414155-EX	47.54463645	-122.3640536	"6504 24TH AVE SW
+SEATTLE, WA 98106
+(47.54463645, -122.3640536)"
+
+~ $cd spark2/
+spark2 $bin/spark-shell
+
+val buildingPermitDf = spark.read.format("csv")
+							.option("inferSchema", "true")
+							.option("header", "true")
+							.option("sep", "\t")
+							.load("/Users/holyspirit/Downloads/Building_Permits.tsv")
+
+buildingPermitDf.cache()
+
+buildingPermitDf.first()
+
+buildingPermitDf.printSchema()
+
+/*data preprocessing*/
+
+val peopleDF = spark.read.json("examples/src/main/resources/people.json")
+peopleDF.show
+peopleDF.na.drop("any").show
+peopleDF.na.drop("all").count()
+
+buildingPermitDf.count()
+
+buildingPermitDf.describe()
+				.show
+
+buildingPermitDf.na
+				.drop()
+				.show()
+
+buildingPermitDf.na.drop("any").count()
+
+buildingPermitDf.na.drop("all").count()
+
+buildingPermitDf.filter("EstProjectCost > 1000000")
+				.groupBy("PermitClass")
+				.count()
+				.sort($"count".desc)
+				.show()
+
+buildingPermitDf.filter("OriginalZip = 98101")
+				.groupBy("PermitTypeDesc")
+				.count()
+				.sort($"count".desc)
+				.show(false)
+
+buildingPermitDf.filter("StatusCurrent = 'Issued'")
+				.count
+
+buildingPermitDf.filter("StatusCurrent != 'Issued'")
+				.count
+
+val statusPermit =  buildingPermitDf.groupBy("StatusCurrent")
+									.count()
+									.sort($"count".desc)
+
+statusPermit.show(23,false)
+
+statusPermit.write.format("parquet")
+			.mode("overwrite")
+			.save("StatusPermit.parquet")
+
+spark.read.format("parquet")
+			.option("inferSchema", "true")
+			.load("/Users/holyspirit/spark2/StatusPermit.parquet")
+			.show(23,false)
+
+ 

@@ -1,0 +1,40 @@
+CREATING A DATAFRAME
+
+val dfIris = spark.read.json("/Users/holyspirit/Downloads/iris.json")
+
+// no. of rows
+dfIris.count()
+
+// view the schema
+dfIris.printSchema()
+
+// display the content to stdout
+dfIris.show()
+
+// select the species column
+dfIris.select("species").show()
+
+
+CREATING A DATASET
+
+// Customer is a case class
+case class customer(id: Int, name: String)
+
+// customerDS is a dataset
+val customerDS= sc.parallelize(Seq(customer(101, "Emmanuvel"), customer(201,"Nazarene"), customer(301, "Joshua"))).toDS()
+
+// display the content to stdout
+customerDS.show()
+
+
+
+PERFORMING UNION  
+
+case class Profit(income: Double, quarter: String)
+
+val profitDS1 = sc.parallelize(Seq(Profit(156754.00, "Q1"), Profit(41467314.00, "Q2"))).toDS()
+val profitDS2 = sc.parallelize(Seq(Profit(9237348.00, "Q3"),Profit(6825148.00, "Q4"))).toDS()
+
+val quarterlyDS = profitDS1.union(profitDS2)
+
+quarterlyDS.show()
